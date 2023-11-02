@@ -18,7 +18,18 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn(SpriteBundle {
             sprite: Sprite {
-                custom_size: Some(Vec2::new(63. * sans::SIZE, 46. * sans::SIZE)),
+                custom_size: Some(Vec2::new(75. * sans::SIZE, 75. * sans::SIZE)),
+                ..Default::default()
+            },
+            texture: asset_server.load("clock-main.png"),
+            ..Default::default()
+        })
+        .insert(sans::Clock);
+
+    commands
+        .spawn(SpriteBundle {
+            sprite: Sprite {
+                custom_size: Some(Vec2::new(26. * sans::SIZE, 17. * sans::SIZE)),
                 ..Default::default()
             },
             texture: asset_server.load("leg.png"),
@@ -28,7 +39,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn(SpriteBundle {
             sprite: Sprite {
-                custom_size: Some(Vec2::new(75. * sans::SIZE, 52. * sans::SIZE)),
+                custom_size: Some(Vec2::new(27. * sans::SIZE, 22. * sans::SIZE)),
                 ..Default::default()
             },
             texture: asset_server.load("body.png"),
@@ -38,7 +49,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn(SpriteBundle {
             sprite: Sprite {
-                custom_size: Some(Vec2::new(42. * sans::SIZE, 44. * sans::SIZE)),
+                custom_size: Some(Vec2::new(16. * sans::SIZE, 16. * sans::SIZE)),
                 ..Default::default()
             },
             texture: asset_server.load("head.png"),
