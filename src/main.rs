@@ -4,7 +4,7 @@ mod soul;
 
 fn main() {
     App::new()
-        .insert_resource(ClearColor(Color::rgb(0., 0., 0.)))
+        .insert_resource(ClearColor(Color::rgb(1., 0., 0.)))
         .add_plugins(DefaultPlugins)
         .add_systems(Startup, setup)
         .add_plugins(sans::MainPlugin)
@@ -22,6 +22,17 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 ..Default::default()
             },
             texture: asset_server.load("clock-main.png"),
+            ..Default::default()
+        })
+        .insert(sans::Clock);
+
+    commands
+        .spawn(SpriteBundle {
+            sprite: Sprite {
+                custom_size: Some(Vec2::new(30. * sans::SIZE, 4. * sans::SIZE)),
+                ..Default::default()
+            },
+            texture: asset_server.load("clock-sec.png"),
             ..Default::default()
         })
         .insert(sans::Clock);

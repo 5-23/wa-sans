@@ -46,6 +46,15 @@ fn body_animation(mut commands: Commands, mut sans: Query<(&mut Transform, &Spri
 fn clock_animation(mut clock: Query<(&mut Transform, &Sprite), With<Clock>>) {
     let mut clock = clock.iter_mut();
     let (mut body_transform, body_sprite) = clock.next().unwrap();
+    let (mut sec_transform, sec_sprite) = clock.next().unwrap();
     body_transform.translation.z = -0.2;
     body_transform.translation.y = 120.;
+
+    sec_transform.translation.x =
+        body_transform.translation.y + f32::cos(unsafe { START_TIME }) * 50. - 100.;
+
+    sec_transform.rotate_z(-0.1);
+
+    sec_transform.translation.y =
+        body_transform.translation.x + f32::sin(unsafe { START_TIME }) * 50. + 100.;
 }
