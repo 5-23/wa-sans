@@ -1,10 +1,10 @@
-use bevy::prelude::*;
+use bevy::{math::quat, prelude::*};
 mod sans;
 mod soul;
 
 fn main() {
     App::new()
-        .insert_resource(ClearColor(Color::rgb(1., 0., 0.)))
+        .insert_resource(ClearColor(Color::rgb(0., 0., 0.)))
         .add_plugins(DefaultPlugins)
         .add_systems(Startup, setup)
         .add_plugins(sans::MainPlugin)
@@ -14,11 +14,16 @@ fn main() {
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     println!("spawn");
+    commands.spawn(AudioBundle {
+        source: asset_server.load("sounds/sans.mp3"),
+        ..Default::default()
+    });
     commands.spawn(Camera2dBundle::default());
+
     commands
         .spawn(SpriteBundle {
             sprite: Sprite {
-                custom_size: Some(Vec2::new(75. * sans::SIZE, 75. * sans::SIZE)),
+                custom_size: Some(Vec2::new(70. * sans::SIZE, 70. * sans::SIZE)),
                 ..Default::default()
             },
             texture: asset_server.load("clock-main.png"),
@@ -29,7 +34,12 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn(SpriteBundle {
             sprite: Sprite {
-                custom_size: Some(Vec2::new(30. * sans::SIZE, 4. * sans::SIZE)),
+                custom_size: Some(Vec2::new(30. * 2. * sans::SIZE, 4. * sans::SIZE)),
+                ..Default::default()
+            },
+
+            transform: Transform {
+                rotation: Quat::from_rotation_z(f32::to_radians(-130.)),
                 ..Default::default()
             },
             texture: asset_server.load("clock-sec.png"),
