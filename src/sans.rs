@@ -48,23 +48,17 @@ fn body_animation(mut sans: Query<(&mut Transform, &Sprite), With<Sans>>) {
             + f32::sin(unsafe { START_TIME * 2. / 1.5 }) / 4. * 2.;
 }
 
-fn clock_animation(mut time: Res<Time>, mut clock: Query<(&mut Transform, &Sprite), With<Clock>>) {
+fn clock_animation(mut clock: Query<&mut Transform, With<Clock>>) {
     let mut clock = clock.iter_mut();
-    let (mut body_transform, body_sprite) = clock.next().unwrap();
-    let (mut sec_transform, sec_sprite) = clock.next().unwrap();
+    let mut body_transform = clock.next().unwrap();
+    let mut sec_transform = clock.next().unwrap();
     body_transform.translation.z = -0.2;
     body_transform.translation.y = 180.;
 
     sec_transform.translation.z = -0.19;
     sec_transform.translation.y = 180.;
 
-    // body_transform.translation.z = -0.2;
-    // body_transform.translation.y = 120.;
-
     if unsafe { START_TIME % 9. } as usize == 0 {
-        // if unsafe { START_TIME } as usize == 0 {
-        //     sec_transform.rotate_z(f32::to_radians(-90.));
-        // }
         sec_transform.rotate_z(f32::to_radians(-1.));
     }
 }

@@ -90,4 +90,52 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..Default::default()
         })
         .insert(soul::Soul { hp: 100. });
+
+    commands
+        .spawn(SpriteBundle {
+            sprite: Sprite {
+                color: Color::WHITE,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .insert(boxsys::Bar {
+            t: boxsys::BarType::Down,
+        });
+
+    commands
+        .spawn(SpriteBundle {
+            sprite: Sprite {
+                color: Color::WHITE,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .insert(boxsys::Bar {
+            t: boxsys::BarType::Left,
+        });
+
+    commands
+        .spawn(SpriteBundle {
+            sprite: Sprite {
+                color: Color::WHITE,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .insert(boxsys::Bar {
+            t: boxsys::BarType::Right,
+        });
+
+    commands
+        .spawn(SpriteBundle {
+            sprite: Sprite {
+                color: Color::WHITE,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .insert(boxsys::Bar {
+            t: boxsys::BarType::Up,
+        });
 }
