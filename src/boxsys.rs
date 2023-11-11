@@ -2,10 +2,16 @@ use std::io::Write;
 
 use bevy::prelude::*;
 type Position = (f32, f32);
-static mut UP: Position = (0., -100.);
-static mut RIGHT: Position = (400., -250.);
-static mut DOWN: Position = (0., -400.);
-static mut LEFT: Position = (-400., -250.);
+
+static mut _UP: Position = (0., -100.);
+static mut _RIGHT: Position = (400., -250.);
+static mut _DOWN: Position = (0., -400.);
+static mut _LEFT: Position = (-400., -250.);
+
+pub static mut UP: Position = (0., 0.);
+pub static mut RIGHT: Position = (0., 0.);
+pub static mut DOWN: Position = (0., 0.);
+pub static mut LEFT: Position = (0., 0.);
 pub struct MainPlugin;
 #[derive(Component)]
 pub struct Bar {
@@ -27,18 +33,26 @@ impl Plugin for MainPlugin {
 }
 
 fn box_movement(mut bar: Query<(&mut Transform, &Bar), With<Bar>>) {
-    // let mut bar_iter = bar.iter_mut();
-    // let mut up = bar_iter.next().unwrap();
-    // let mut right = bar_iter.next().unwrap();
-    // let mut down = bar_iter.next().unwrap();
-    // let mut left = bar_iter.next().unwrap();
+    let mut bar_iter = bar.iter_mut();
+    let (up, _) = bar_iter.next().unwrap();
+    let (right, _) = bar_iter.next().unwrap();
+    let (down, _) = bar_iter.next().unwrap();
+    let (left, _) = bar_iter.next().unwrap();
+
+    unsafe {
+        UP = (up.translation.x, up.translation.y);
+        RIGHT = (right.translation.x, right.translation.y);
+        DOWN = (down.translation.x, down.translation.y);
+        LEFT = (left.translation.x, left.translation.y);
+    }
+
     for (mut bar_transform, bar) in bar.iter_mut() {
         std::io::stdout().flush().unwrap();
         let pos = match bar.t {
-            BarType::Up => unsafe { (UP, LEFT.0 - RIGHT.0, 5.) },
-            BarType::Right => unsafe { (RIGHT, 5., UP.1 - DOWN.1) },
-            BarType::Down => unsafe { (DOWN, LEFT.0 - RIGHT.0, 5.) },
-            BarType::Left => unsafe { (LEFT, 5., UP.1 - DOWN.1) },
+            BarType::Up => unsafe { (_UP, _LEFT.0 - _RIGHT.0, 5.) },
+            BarType::Right => unsafe { (_RIGHT, 5., _UP.1 - _DOWN.1) },
+            BarType::Down => unsafe { (_DOWN, _LEFT.0 - _RIGHT.0, 5.) },
+            BarType::Left => unsafe { (_LEFT, 5., _UP.1 - _DOWN.1) },
         };
 
         bar_transform.translation.x += (pos.0 .0 - bar_transform.translation.x) / 30.;
@@ -51,15 +65,15 @@ fn box_movement(mut bar: Query<(&mut Transform, &Bar), With<Bar>>) {
 
 pub fn change_size(u: f32, r: f32, d: f32, l: f32) {
     unsafe {
-        UP.1 += u / 2.;
-        RIGHT.0 += r / 2.;
-        DOWN.1 -= d / 2.;
-        LEFT.0 -= l / 2.;
+        _UP.1 += u / 2.;
+        _RIGHT.0 += r / 2.;
+        _DOWN.1 -= d / 2.;
+        _LEFT.0 -= l / 2.;
 
-        UP.0 = (LEFT.0 + RIGHT.0) / 2.;
-        RIGHT.1 = (UP.1 + DOWN.1) / 2.;
-        DOWN.0 = (LEFT.0 + RIGHT.0) / 2.;
-        LEFT.1 = (UP.1 + DOWN.1) / 2.;
+        _UP.0 = (_LEFT.0 + _RIGHT.0) / 2.;
+        _RIGHT.1 = (_UP.1 + _DOWN.1) / 2.;
+        _DOWN.0 = (_LEFT.0 + _RIGHT.0) / 2.;
+        _LEFT.1 = (_UP.1 + _DOWN.1) / 2.;
     }
 }
 
@@ -69,9 +83,9 @@ pub fn change_pos(x: f32, y: f32) {
 
 pub fn set_size(u: f32, r: f32, d: f32, l: f32) {
     unsafe {
-        UP.1 = u;
-        RIGHT.0 = r;
-        DOWN.1 = d;
-        LEFT.0 = l;
+        _UP.1 = u;
+        _RIGHT.0 = r;
+        _DOWN.1 = d;
+        _LEFT.0 = l;
     }
 }

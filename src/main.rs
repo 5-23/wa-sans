@@ -100,21 +100,8 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..Default::default()
         })
         .insert(boxsys::Bar {
-            t: boxsys::BarType::Down,
+            t: boxsys::BarType::Up,
         });
-
-    commands
-        .spawn(SpriteBundle {
-            sprite: Sprite {
-                color: Color::WHITE,
-                ..Default::default()
-            },
-            ..Default::default()
-        })
-        .insert(boxsys::Bar {
-            t: boxsys::BarType::Left,
-        });
-
     commands
         .spawn(SpriteBundle {
             sprite: Sprite {
@@ -136,6 +123,18 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..Default::default()
         })
         .insert(boxsys::Bar {
-            t: boxsys::BarType::Up,
+            t: boxsys::BarType::Down,
+        });
+
+    commands
+        .spawn(SpriteBundle {
+            sprite: Sprite {
+                color: Color::WHITE,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .insert(boxsys::Bar {
+            t: boxsys::BarType::Left,
         });
 }
