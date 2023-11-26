@@ -33,6 +33,7 @@ impl Plugin for MainPlugin {
 }
 
 fn box_movement(mut bar: Query<(&mut Transform, &Bar), With<Bar>>) {
+    // change_size(0., -0.5, 0., -0.5);
     let mut bar_iter = bar.iter_mut();
     let (up, _) = bar_iter.next().unwrap();
     let (right, _) = bar_iter.next().unwrap();

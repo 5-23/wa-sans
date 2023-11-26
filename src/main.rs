@@ -1,4 +1,5 @@
 use bevy::{math::quat, prelude::*};
+mod bone;
 mod boxsys;
 mod sans;
 mod soul;
@@ -11,6 +12,7 @@ fn main() {
         .add_plugins(sans::MainPlugin)
         .add_plugins(soul::MainPlugin)
         .add_plugins(boxsys::MainPlugin)
+        .add_plugins(bone::MainPlugin)
         .run();
 }
 
